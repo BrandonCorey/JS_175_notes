@@ -11,11 +11,15 @@ This module has a `URL` class that we can use to constuct new `URL` objects
 - `searchParams` - an instance of URLSearchParams class. Contains query parameters and values in an object as well as an interface to interract with them
 
 ### `URLSearchparams` ###
-Instance methods
+Instance methods:
 - `get` - Takes argument of URL parameter and returns corresponding value e.g
 - `delete` - Takes arguent of URL parameter and deletes it from URL object
 - `set` - Takes argument of URL parameter and corresponding value and creates query string
 - `append` Takes argument of URL parameter and corresponding value and appends to existing query string
+
+Note that instances of URLSearchParams (like the object referenced by `searchParams` property of `URL` instances) are not _regular_ objects
+- Desturcturing doesn't work on them
+- Using the provided interface is the easiest way to interract with these objects
 
 ```javascript
 const HTTP = require('http');
