@@ -20,6 +20,11 @@
 - Typically, an HTTP server will recieve the request and send the response, whereas an application server will process the response
 - Networked applications do not necessarily need to utilize a database
 
+**The high level model for creating a dynamic response**
+1. A request is received
+2. Some processing occurs
+3. A response is sent based on the result of that processing
+
 ![image](https://user-images.githubusercontent.com/93304067/222995561-7ae929b5-d3b9-4979-bee1-7f6a26322c14.png)
 
 OR
