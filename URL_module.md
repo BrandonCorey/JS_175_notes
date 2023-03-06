@@ -17,7 +17,7 @@ Instance methods:
 - `set` - Takes argument of URL parameter and corresponding value and creates query string
 - `append` Takes argument of URL parameter and corresponding value and appends to existing query string
 
-Note that instances of URLSearchParams (like the object referenced by `searchParams` property of `URL` instances) are not _regular_ objects
+**Note that instances of URLSearchParams** are not _regular_ objects
 - Desturcturing doesn't work on them
 - Using the provided interface is the easiest way to interract with these objects
 
