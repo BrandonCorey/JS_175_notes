@@ -32,8 +32,8 @@ Node's `http` module has a `createServer` method that returns a new instance of 
   - As a result, instead of having to process the TCP data, we only have to worry about processing the HTTP request
 
 ```javascript
-const HTTP = require('http'); // built in node module that contains classes to implement HTTP server
-const PORT = 3000;  // ephemueral port for us to use for server to listen
+const HTTP = require('http');
+const PORT = 3000;
 
 const SERVER = HTTP.createServer((req, res) => {
   let method = req.method;
