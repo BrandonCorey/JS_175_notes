@@ -33,7 +33,7 @@ OR
 
 ### Client responsibility ###
 In both of the above examples, the client parses the response and produces what it needs to. It does not care about what processing the server does
-- NOTE, in mordern development, there are many client side rendering techniques that take place with **Single Page Applications** (SPA)
+- NOTE, in mordern development, there are many client side content-generation techniques that take place with **Single Page Applications** (SPA)
   - This means that the necessary _resources/assets_ are served to the client, who then **processes** them on the front end
   - This means that for client-side generated content, far less HTTP requests and page refreshes need to be made since the browser does the processing itself
   - We will **NOT** focus on SPA's in this course
