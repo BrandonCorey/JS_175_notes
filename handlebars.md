@@ -7,8 +7,8 @@ Templating engines can be used in our code in place of JS template literals to c
 ### How `handlebars` works ###
 Gives us a `compile` method that takes HTML template literal as arg and returns a function that can generate the HTML
 - The template literal containing the HTML must have use special syntax for placeholders `{{ variableHere }}`
-- returned function takes object argument and uses its properties to plug in values for HTML
-- The properties of the object must be the same as the values in the HTML used to compile the function
+- **returned function takes object argument** and uses its properties to plug in values for HTML
+- The **properties** of the object argument **must be the same as the values in the HTML** used to compile the function
 
 ```javascript
 // SOURCE template literal HTML with special spaceholders {{  }}
