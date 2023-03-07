@@ -5,11 +5,11 @@
 - Within a networked application, routing is often handled by a routing engine which abstracts away the complexity of matching routes and executing request handlers
 
 ```javascript
-      if (method === 'GET' && pathname === '/') { --> part of first route
+      if (method === 'GET' && pathname === '/') { // --> part of first route
         getIndex(res); // request handler --> part of first route
-      } else if (method === 'GET' && pathname === '/loan-offer') { --> part of second route
+      } else if (method === 'GET' && pathname === '/loan-offer') { // --> part of second route
         getLoanOffer(res, path); // request handler --> part of second route
-      } else if (method === 'POST' && pathname === '/loan-offer') { --> part of third route
+      } else if (method === 'POST' && pathname === '/loan-offer') { // --> part of third route
         postLoanOffer(req, res); // request handler --> part of third route
       } else {
         res.statusCode = 404;
