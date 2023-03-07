@@ -11,7 +11,8 @@ Gives us a `compile` method that takes HTML template literal as arg and returns 
 - The properties of the object must be the same as the values in the HTML used to compile the function
 
 ```javascript
-// SOURCE template literal HTML with special spaceholders {{  }} e.g <a href='/?amount={{amount}}&duration={{durationDecrement}}'>- 1 year</a>
+// SOURCE template literal HTML with special spaceholders {{  }}
+// e.g <a href='/?amount={{amount}}&duration={{durationDecrement}}'>- 1 year</a>
 const LOAN_OFFER_TEMPLATE = HANDLEBARS.compile(SOURCE); 
 
 const render = (template, data) => {
