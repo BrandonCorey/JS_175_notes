@@ -6,11 +6,13 @@ Templating engines can be used in our code in place of JS template literals to c
 
 ### How `handlebars` works ###
 Gives us a `compile` method that takes HTML template literal as arg and returns a function that can generate the HTML
+- The template literal containing the HTML must have use special syntax for placeholders `{{ variableHere }}`
 - returned function takes object argument and uses its properties to plug in values for HTML
 - The properties of the object must be the same as the values in the HTML used to compile the function
 
 ```javascript
-const LOAN_OFFER_TEMPLATE = HANDLEBARS.compile(SOURCE); // SOURCE is the HTML e.g <a href='/?amount={{amount}}&duration={{durationDecrement}}'>- 1 year</a>
+// SOURCE template literal HTML with special spaceholders {{  }} e.g <a href='/?amount={{amount}}&duration={{durationDecrement}}'>- 1 year</a>
+const LOAN_OFFER_TEMPLATE = HANDLEBARS.compile(SOURCE); 
 
 const render = (template, data) => {
   let html = template(data) // the template function argument will be LOAN_OFFER_TEMPLATE
@@ -32,6 +34,7 @@ const createLoan = (params) => {
 
   return data;
 }
+
 const SERVER = HTTP.createServer((req, res) => {
   const path = req.url;
   let data = createLoan(getParams(path));
