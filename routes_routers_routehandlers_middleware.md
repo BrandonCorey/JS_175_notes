@@ -1,7 +1,3 @@
-# Express JS
-
-Express JS is a popular web framework for Node.js. It provides a simple and flexible API for building web applications and APIs. In this guide, we'll cover some basic concepts of Express JS, including routes, route handlers, middleware functions, and routers.
-
 ## Routes
 
 Routes in Express JS define the endpoints that your application or API will respond to. Each route is associated with a specific HTTP method (e.g., GET, POST, PUT, DELETE) and a URL pattern. 
