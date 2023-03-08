@@ -13,6 +13,7 @@ app.get('/', (req, res) => {
 ## Route handlers
 Route handlers are functions that are executed when a route is matched. They can perform any necessary logic, such as querying a database or rendering a view, and then send a response back to the client.
 - Example of a route handler that queries a database and sends the result back to the client:
+- The entire function is a route, the **callback** argument is the **handler**
 ```javascript
 app.get('/users/:id', (req, res) => {
   const id = req.params.id;
