@@ -27,7 +27,16 @@ touch layout.pug
 ```
 mkdir views/includes
 ```
-This is how you'll run your app
+
+8. Create `public` directory for static assets
+```
+mkdir public
+```
+9. Create `stylesheets` directory for external CSS
+```
+mkdir public/stylesheets
+```
+10. This is how you'll run your app
 ```
 npm start
 ```
