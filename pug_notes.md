@@ -88,3 +88,43 @@ block headerText
 block content
   p Hola, bienvenido a mi sitio web
 ```
+
+## Express and Pug ##
+Express is able pass define local variables for a view a few different ways
+- `res.render` first argument is view, second argument is optional **object object whose properties/vaues define local variables for the view**
+- `app.local` can also be used to define local variables for the view
+
+```javascript
+app.get('/english', (req, res) => {
+  res.render('hello_world', {currentPath: req.originalUrl});
+});
+```
+```
+app.locals.currentPathClass = (path, currentPath) => {
+  return path === currentPath ? "current" : "";
+};
+```
+### Local variables in the view
+Local view variables can be accessed a few different ways
+- Within attributes of elements, variables can be referenced by their names with no additional syntax
+  - They can also be refenced using template literal syntax if needed to be interpolated into the middle of a string
+- Outside of attributes, they must be used with an `=` sign with the element they are being substituted for
+- Either way, the values will be evaluated as a JS expression and then interpolated as a string
+```pug
+doctype html
+  html
+    head
+      title testing
+    body
+      img.currentPathClass(./english, currentPath)
+```
+```pug
+doctype html
+html
+  head
+    title= title
+  body
+    h1= title
+    p Welcome to my awesome website!
+
+```
