@@ -1,5 +1,8 @@
 #!/usr/bin/bash
 
+# Adds app #
+touch app.js
+
 # Initialize npm package
 npm init -y
 
@@ -9,10 +12,10 @@ npm install pug --save
 npm install nodemon --save-dev
 npm install eslint eslint-cli babel-eslint --save-dev
 
-# Add script for `npm start` that executes `nodemon` for program
-echo "\"scripts\": {
-    \"start\": \"nodemon ${main}\"
-  }," >> package.json
+# adds a "start" command to package.json "script" object with value of "nodemon app.js"
+APP_MAIN=$(grep -Eo '"main":.*?[^\\]",?' package.json | sed 's/"main": "\(.*\)",/\1/')
+npm set-script start "npx nodemon $APP_MAIN"
+# code here
 
 # Create views directory for pug files
 mkdir views
