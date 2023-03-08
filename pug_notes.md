@@ -104,7 +104,7 @@ app.locals.currentPathClass = (path, currentPath) => {
   return path === currentPath ? "current" : "";
 };
 ```
-### Local variables in the view
+### Local variables in a view
 Local view variables can be accessed a few different ways
 - Within attributes of elements, variables can be referenced by their names with no additional syntax
   - They can also be refenced using template literal syntax if needed to be interpolated into the middle of a string
