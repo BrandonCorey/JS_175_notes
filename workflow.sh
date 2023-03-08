@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 
 # Initialize npm package
-npm init
+npm init -y
 
 # Install dependencies and dev-dependencies
 npm install express --save
@@ -11,7 +11,7 @@ npm install eslint eslint-cli babel-eslint --save-dev
 
 # Add script for `npm start` that executes `nodemon` for program
 echo "\"scripts\": {
-    \"start\": \"nodemon <main_program_name>\"
+    \"start\": \"nodemon ${main}\"
   }," >> package.json
 
 # Create views directory for pug files
