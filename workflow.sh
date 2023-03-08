@@ -1,7 +1,14 @@
 #!/usr/bin/bash
 
 # Adds app #
-touch app.js
+if [ -z "$1" ]
+then
+  filename="app.js"
+else
+  filename="$1"
+fi
+
+touch "$filename"
 
 # Initialize npm package
 npm init -y
@@ -33,4 +40,4 @@ mkdir public
 mkdir public/stylesheets
 
 # Output instructions for running the app
-echo "Your app is ready! To start, run: npm start"
+echo -e "\n\033[96mYour express app is ready! To start, run: npm start\033[0m"
