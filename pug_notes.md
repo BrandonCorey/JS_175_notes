@@ -48,6 +48,7 @@ html
 
 Pug allows you to create layout templates that can be extended by other templates. To do this, you create a layout template that includes blocks where content can be inserted by the child templates.
 - Default values can be assigned for each block in the layout by nesting an element inside of it (using indentation)
+  - These will be used if a matching block is not found in any of the views
 ```pug
 // layout.pug
 html
