@@ -35,6 +35,7 @@ app.use((req, res, next) => {
 
 ## Routers
 Routers in Express JS are used to group related routes and handlers together. They can be used to break up a large application into smaller, more manageable pieces.
+- Middleware functions are executed using `app.use`
 - Example of a router that handles all routes related to user authentication:
 ```javascript
 const authRouter = express.Router();
