@@ -26,11 +26,15 @@ app.get('/users/:id', (req, res) => {
 Middleware functions are functions that are executed before a route handler is called. They can perform any necessary preprocessing or postprocessing, such as logging or authentication, and then pass control to the next middleware function or route handler.
 - Performed after a request is recieved, but before route handler is executed
 - Can be chained together using `next` argument
+- Some middleware functions are provided by `express`
 ```javascript
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
+```
+```javascript
+app.use(express.static('public')); // directory to look for static content
 ```
 
 ## Routers
