@@ -162,7 +162,7 @@ Named URL segments that are used to capture the values specified at their positi
 - denoted parameters are automatically added to `params` object for `req`
 - You can name these parameters anything, but they should describe the general structure of the URL
   - values for each parameter will be used as values for prop in `param` object
-- `/example/:param`
+
 ``
 GET /banking/bnk/brandoncorey/bc711f HTTP/1.1
 ``
