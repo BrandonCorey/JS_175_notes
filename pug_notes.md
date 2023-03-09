@@ -109,7 +109,8 @@ app.locals.currentPathClass = (path, currentPath) => {
 Local view variables can be accessed a few different ways
 - Within attributes of elements, variables can be referenced by their names with no additional syntax
   - They can also be refenced using template literal syntax if needed to be interpolated into the middle of a string
-- Outside of attributes, they must be used with an `=` sign with the element they are being substituted for
+- Outside of attributes, they can be evaluated as JS expressions using `=`. They will then be rendered as HTML text
+  - Can also be interpoled with `${#]` syntax, good if multiple local variables are used within same element
 - Either way, the values will be evaluated as a JS expression and then interpolated as a string
 ```pug
 doctype html
@@ -123,10 +124,10 @@ doctype html
 doctype html
 html
   head
-    title= title
+    title hello
   body
-    h1= title
-    p Welcome to my awesome website!
+    h1= greeting
+    p #{greeting} #{username}, welcome to my website
 
 ```
 ## Looping
