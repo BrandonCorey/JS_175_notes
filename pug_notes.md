@@ -160,6 +160,7 @@ body
 Named URL segments that are used to capture the values specified at their position in the URL
 - denote with colon (`:`)
 - denoted parameters are automatically added to `params` object for `req`
+- Useful for dynamically routing requests based on path
 - You can name these parameters anything, but they should describe the general structure of the URL
   - values for each parameter will be used as values for prop in `param` object
 
