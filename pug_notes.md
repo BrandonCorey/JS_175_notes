@@ -167,10 +167,9 @@ Named URL segments that are used to capture the values specified at their positi
 GET /banking/bnk/brandoncorey/bc711f HTTP/1.1
 ```
 ```javascript
-app.get(`/account/:accountId/users/:userId, (req, res) => {
+app.get('/account/:accountId/users/:userId', (req, res) => {
   const userId = req.params.userId;
   const accountId = req.params.accountId;
   console.log(req.params) // => { accountId: 'bnk', userId: 'bc711f' }
 });
-`
 ```
