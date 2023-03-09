@@ -104,3 +104,28 @@ app.use(function(err, req, res, next) {
 });
 
 ```
+## handling `POST` requests
+`POST` requests send data to the server, one of the common ways of doing this is through the use of a form
+- A form allows a user on the client-side to send data the the server
+- We need to use `express.urlencoded` to return a middleware function that parses the request body and stores the responses in `req.body` body
+  - Takes argument of `{extended: false}` objece, the true/false just specifies which module to use for parsing (qs vs querystring, not important, use false)
+  - If this middleware is not set up, req.body will be undefined, so remember to do this
+- We can then access the data from the form within `req.body`
+  - The properties will be the `name` attributes specified in the form, and the values will be the values that were **submitted**
+```javascript
+app.use(express.urlencoded({ extended: false })); 
+```
+```javascript
+app.post('/contacts/new', (req, res) => {
+  console.log(req.body); // ==> { firstName: 'Brandon', lastName: 'Corey', phoneNumber: '123-456-8910' }
+  contactData.push({...req.body}); // spread so we make a copy of the body object of the request
+
+  res.redirect('/contacts');
+});
+```
+```pug
+label(for='firstName') First Name:
+input(type='text' name='firstName' id='firstName')
+label(for='lastName') Last Name;
+input(type='text' name='lastName' id='lastName')
+```
