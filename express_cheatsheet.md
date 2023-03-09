@@ -37,3 +37,25 @@ app.listen(3000, "localhost", () => {
   console.log("Listening to port 3000.");
 });
 ```
+
+## Paremtized routes
+Named URL segments that are used to capture the values specified at their position in the URL
+- denote with colon (`:`)
+- denoted parameters are automatically added to `params` object for `req`
+- Useful for dynamically routing requests based on path
+- You can name these parameters anything, but they should describe the general structure of the URL
+  - values for each parameter will be used as values for prop in `param` object
+
+```
+GET /banking/bnk/brandoncorey/bc711f HTTP/1.1
+```
+```javascript
+app.get('/account/:accountId/users/:userId', (req, res) => {
+  const { userId, accountId } = req.params;
+  res.render('account_page', {
+    userId,
+    accountId
+  ])
+  console.log(req.params) // => { accountId: 'bnk', userId: 'bc711f' }
+});
+```
