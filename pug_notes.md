@@ -110,7 +110,8 @@ Local view variables can be accessed a few different ways
 - Within attributes of elements, variables can be referenced by their names with no additional syntax
   - They can also be refenced using template literal syntax if needed to be interpolated into the middle of a string
 - Outside of attributes, they can be evaluated as JS expressions using `=`. They will then be rendered as HTML text
-  - Can also be interpoled with `${#]` syntax, good if multiple local variables are used within same element
+  - This is good for something like evaluating a function and then interpolating its value inside the of an element
+- Can also be interpoled with `${#]` syntax, good if multiple local variables are used within same element
 - Either way, the values will be evaluated as a JS expression and then interpolated as a string
 ```pug
 doctype html
