@@ -92,7 +92,7 @@ block content
 ## Express and Pug ##
 Express is able pass define local variables for a view a few different ways
 - `res.render` first argument is view, second argument is optional **object object whose properties/vaues define local variables for the view**
-- `app.locals` can also be used to define local variables for the view
+- `app.locals` can also be used to define local variables for the view. **All** views can access the properties of `app.local`
   - methods can be defined on `app.locals` called **view helpers**
 
 ```javascript
