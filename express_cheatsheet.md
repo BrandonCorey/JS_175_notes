@@ -129,3 +129,56 @@ input(type='text' name='firstName' id='firstName')
 label(for='lastName') Last Name;
 input(type='text' name='lastName' id='lastName')
 ```
+## Middleware
+Express middleware functions are callback functions used by Express methods like `app.use` and `app.get`, among others. These functions can access and manipulate the request and response objects per the application requirements
+- Middleware functions usually have parameters for `req, res, next` with `next` being optional
+- Route handlers/controllers are middleware
+
+Middleware must either generate an HTTP response or tell Express to execute the next middleware. You can use calls like render, send, and redirect to generate a response; you can call the next function to execute the next middleware
+- express calls middleware in the order in which they are defined
+- Can be executed at application level (for all requests) by passing middleware function to `app.use`
+- Can be executed at the route level (for requests of a certain URL and Method by passing middleware function to `app.get`, `app.post` etc..
+- **`app.use`, `app.get`, `app.post` (any request method) allow you to add successive middleware functions as additional arguments (comma or array) as well**
+```javascript
+app.use((req, res, next) => {      // Middleware #1
+  // do something
+  if (somethingIsTrue) res.render("foo");
+  else next();
+});
+
+app.use((req, res, next) => {      // Middleware #2
+  // do something else
+  next();
+});
+
+app.get("/stuff", (req, res) => {  // Middleware #3
+  res.render("qux");
+});
+```
+```javascript
+app.use((req, res, next) => {      // Middleware #1
+  // do something
+  if (somethingIsTrue) res.render("foo");
+  else next();
+  },
+  (req, res, next) => {           // Middleware #2
+    // do something else
+    next();
+  },
+);
+```
+```javascript
+const middleware1 = (req, res, next) => {
+  // do something
+  if (somethingIsTrue) res.render("foo");
+  else next();
+  }
+};
+
+const middleware2 = (req, res, next) => {
+  // do something else
+  next();
+};
+
+app.use(middleware1, middleware2);
+```
