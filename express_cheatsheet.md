@@ -64,7 +64,7 @@ Can use the `morgan` module to log our HTTP requests, which is a standard practi
 const morgan = require("morgan");
 app.use(morgan('common');
 ```
-## Paremtized routes
+## Paremetized routes
 Named URL segments that are used to capture the values specified at their position in the URL
 - denote with colon (`:`)
 - denoted parameters are automatically added to `params` object for `req`
