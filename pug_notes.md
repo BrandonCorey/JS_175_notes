@@ -93,6 +93,7 @@ block content
 Express is able pass define local variables for a view a few different ways
 - `res.render` first argument is view, second argument is optional **object object whose properties/vaues define local variables for the view**
 - `app.local` can also be used to define local variables for the view
+  - methods can be defined on `app.local` called **view helpers**
 
 ```javascript
 app.get('/english', (req, res) => {
