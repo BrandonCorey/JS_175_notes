@@ -130,14 +130,16 @@ label(for='lastName') Last Name;
 input(type='text' name='lastName' id='lastName')
 ```
 ## Middleware
-Express middleware functions are callback functions used by Express methods like `app.use` and `app.get`, among others. These functions can access and manipulate the request and response objects per the application requirements
+**Express middleware functions are callback functions used by Express methods like `app.use` and `app.get`**, among others. These functions can access and manipulate the request and response objects per the application requirements
 - Middleware functions usually have parameters for `req, res, next` with `next` being optional
 - Route handlers/controllers are middleware
-
-Middleware must either generate an HTTP response or tell Express to execute the next middleware. You can use calls like render, send, and redirect to generate a response; you can call the next function to execute the next middleware
+- `next` can be invoked to tell express to execute **the next middleware that matches the request conditions**
+### Structure ###
+**Middleware must either generate an HTTP response or tell Express to execute the next middleware**. You can use calls like render, send, and redirect to generate a response; you can call the next function to execute the next middleware
 - express calls middleware in the order in which they are defined
-- Can be executed at application level (for all requests) by passing middleware function to `app.use`
-- Can be executed at the route level (for requests of a certain URL and Method by passing middleware function to `app.get`, `app.post` etc..
+- Can be executed at **application level** (for all requests) by passing middleware function to `app.use`
+  - Can also be used for **all requests of a specific path**
+- Can be executed at the **route level** (for requests of a certain URL and Method by passing middleware function to `app.get`, `app.post` etc..
 - **`app.use`, `app.get`, `app.post` (any request method) allow you to add successive middleware functions as additional arguments (comma or array) as well**
 ```javascript
 app.use((req, res, next) => {      // Middleware #1
@@ -181,4 +183,28 @@ const middleware2 = (req, res, next) => {
 };
 
 app.use(middleware1, middleware2);
+```
+
+### Passing data between midldleware
+One of the easiest ways to do this is by storing data with `res.locals`
+- This stores data within the `res.locals` object for the duration of the specific HTTP request/respose cycle
+  - This is different from `app.locals`, which stores data for the lifetime of the application process
+- This data can be accessed by all other middleware **that match the request conditions**
+- Similar to `app.locals`, `res.locals` variables are available within our `views`, **BUT should still** explicitly be passed through an object
+```javascript
+app.get(
+  "/foo",
+  (req, res, next) => {
+    res.locals.id = getNextIdNumber();
+    res.locals.name = req.body.name.trim().toUpperCase();
+    res.locals.fooData = [1, 2, 3];
+    next();
+  },
+  (req, res) => {
+    res.render("bar", {
+      id: res.locals.id,
+      name: res.locals.name,
+    });
+  },
+);
 ```
