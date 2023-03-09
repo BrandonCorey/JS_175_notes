@@ -170,6 +170,10 @@ GET /banking/bnk/brandoncorey/bc711f HTTP/1.1
 ```javascript
 app.get('/account/:accountId/users/:userId', (req, res) => {
   const { userId, accountId } = req.params;
+  res.render('account_page', {
+    userId,
+    accountId
+  ])
   console.log(req.params) // => { accountId: 'bnk', userId: 'bc711f' }
 });
 ```
