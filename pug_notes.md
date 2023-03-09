@@ -129,3 +129,28 @@ html
     p Welcome to my awesome website!
 
 ```
+## Looping
+Pug gives us `each` loops and `while` loops to eliminate repetitive code. This is espeically useful for list items
+- The loops can iterate over a JavaSript object and a JavaSript array
+- We can import these objects as local variables to iterate over
+```javascript
+app.get("/english", (req, res) => {
+  res.render("hello-world-english", {
+    countries: COUNTRY_DATA,
+    currentPath: req.path,
+  });
+});
+```
+```pug
+body
+  nav
+    ul
+      each country in countries
+        li
+          a(href=country.path
+            class=currentPathClass(country.path, currentPath)
+          )
+            img.flag(src=`/images/${country.flag}`
+                     alt=country.alt
+                     title=country.title)
+```
