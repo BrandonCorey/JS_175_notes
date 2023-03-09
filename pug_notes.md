@@ -163,9 +163,9 @@ Named URL segments that are used to capture the values specified at their positi
 - You can name these parameters anything, but they should describe the general structure of the URL
   - values for each parameter will be used as values for prop in `param` object
 
-``
+```
 GET /banking/bnk/brandoncorey/bc711f HTTP/1.1
-``
+```
 ```javascript
 app.get(`/account/:accountId/users/:userId, (req, res) => {
   const userId = req.params.userId;
