@@ -133,6 +133,7 @@ html
 Pug gives us `each` loops and `while` loops to eliminate repetitive code. This is espeically useful for list items
 - The loops can iterate over a JavaSript object and a JavaSript array
 - We can import these objects as local variables to iterate over
+- Pug will use the loop to render the final HTML 
 ```javascript
 app.get("/english", (req, res) => {
   res.render("hello-world-english", {
@@ -153,4 +154,23 @@ body
             img.flag(src=`/images/${country.flag}`
                      alt=country.alt
                      title=country.title)
+```
+
+## Paremtized routes
+Named URL segments that are used to capture the values specified at their position in the URL
+- denote with colon (`:`)
+- denoted parameters are automatically added to `params` object for `req`
+- You can name these parameters anything, but they should describe the general structure of the URL
+  - values for each parameter will be used as values for prop in `param` object
+- `/example/:param`
+``
+GET /banking/bnk/brandoncorey/bc711f HTTP/1.1
+``
+```javascript
+app.get(`/account/:accountId/users/:userId, (req, res) => {
+  const userId = req.params.userId;
+  const accountId = req.params.accountId;
+  console.log(req.params) // => { accountId: 'bnk', userId: 'bc711f' }
+});
+`
 ```
