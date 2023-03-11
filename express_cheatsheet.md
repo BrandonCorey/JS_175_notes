@@ -208,3 +208,71 @@ app.get(
   },
 );
 ```
+## express validator ##
+A module that provides many functions and methods to sanitize and validate user input. Many of these methods can be chained and used as middleware
+- `body` - A function that takes an argument and parses a req.body for the matching value of that argument
+  - `trim` - Can trim whitespace from a string (normal JS function)
+  - `isLength` - Checks if a string's length falls in a certain range. Can be passed an object argument speciying the min, max, or both
+  - `isInt` - Checks if a string contains a number value (as a string). Optional range can be specified as an object argument with min, max, or both
+  - `toInt` - Converts string to a number. Takes no arguments
+  - `bail` - Exits validation chain if the validation method before it fails. Takes no arguments
+  - `isAlpha` - Checks if string contains only alphabetic characters. Takes no arguments
+  - `matches` - Checks if a string matches a regexular expression, which can be passed as an argument
+  - `withMessage` - Add an error messages for the the preceding validation method if it fails
+
+This is called validation API chaining and can be passed as a middleware function to any express routing method e.g `app.METHOD`
+- These chains are typically passed into the routing method as an array (any middleware can be passed in an array or comma seperated)
+
+```javascript
+app.post("/contacts/new",
+  [
+    body("firstName")
+      .trim()
+      .isLength({ min: 1 })
+      .withMessage("First name is required.")
+      .bail()
+      .isLength({ max: 25 })
+      .withMessage("First name is too long. Maximum length is 25 characters.")
+      .isAlpha()
+      .withMessage("First name contains invalid characters. The name must be alphabetic."),
+  ]
+```
+
+- `validationResult` - Takes a `req` as an argument, and returns an array of objets with information about any `errors` during validaiton
+- `errors` - The standard variable name for the object returned by `validationResult`
+  - `array` - Returns an array of all errors (as objects). Can specify an argument to narrow down returned errors e.g `{only: ['email']}
+  - `isEmpty` - method returns a boolean based on if there are error objects generated from the `validationResult` invocation
+
+Example of what an object returned by `errors.array` looks like
+```
+[
+  {
+    value: '', // value the user submitted
+    msg: 'Email is required', // error message
+    param: 'email', // the req.body value we are testing
+    location: 'body'
+  },
+  {
+    value: 'not an email',
+    msg: 'Email must be valid',
+    param: 'email',
+    location: 'body'
+  },
+]
+```
+
+An example of using `validationResult` and the methods of the object it returns
+```javascript
+  (req, res, next) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.render("new-contact", {
+        errorMessages: errors.array().map(error => error.msg),
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        phoneNumber: req.body.phoneNumber,
+      });
+    } else {
+      next();
+    }
+```
