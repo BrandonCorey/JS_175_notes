@@ -210,6 +210,11 @@ app.get(
 ```
 ## express validator ##
 A module that provides many functions and methods to sanitize and validate user input. Many of these methods can be chained and used as middleware
+The functions we are interested in for now:
+```javascript
+const { body, validationResult } = require("express-validator");
+```
+
 - `body` - A function that takes an argument and parses a req.body for the matching value of that argument
   - `trim` - Can trim whitespace from a string (normal JS function)
   - `isLength` - Checks if a string's length falls in a certain range. Can be passed an object argument speciying the min, max, or both
