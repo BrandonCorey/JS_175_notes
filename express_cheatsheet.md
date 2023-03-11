@@ -208,7 +208,7 @@ app.get(
   },
 );
 ```
-## express validator ##
+## `express-validator` ##
 A module that provides many functions and methods to sanitize and validate user input. Many of these methods can be chained and used as middleware
 The functions we are interested in for now:
 ```javascript
@@ -280,4 +280,82 @@ An example of using `validationResult` and the methods of the object it returns
     } else {
       next();
     }
+```
+## Sessions
+A period of interraction between a user and a website or a web application
+- Duration of the the sessin is determined by how long the server stores the session data
+  - Note that this is a slight distinciton from the cookie expiration time
+
+## Session Persistance
+Allow data to persist when our applicaton restarts, and allows each user to have their own saved data for the browser they are using
+- This is opposed to all data being lossed when the application restarts
+- Also means that different users no longer will see the same data on the page, as each session will be identified individually
+  - Currently in our apps, there is no way to differentiate between HTTP request sources, and all data is stored in the same object
+### `express-session`
+A module that can be used to manage sessions. Mainly, it helps us handle cookies
+- Has a built in `MemoryStore` that can be used for development purposes, but doesn't persist (each browser would see something different, but app restarts would delete data)
+- Allows for use of external data stores that persist, list can be found in [documentation](https://www.npmjs.com/package/express-session)
+
+**How it works**
+1. Generates a unique **session ID** whenever a client browser makes an **initial** HTTP request to the application
+2. Our application will store any data that needs to be persisted in a _specified_ DB under the corresponding session ID
+3. Sends the generated Seesion ID back to the client browser in a cookie
+4. Browser sends cookie back to browser as a part of each subsequent request
+5. Application uses that cookie to fetch the stored data for that session
+
+**How to use**
+- `express-session` returns a `session` **midldleware function**
+- `session` function takes an object argument with the following properties
+  - The `cookie` property specifies a cookie object with the following required properties
+    - `httpOnly` - Security related setting. Can be true/false. When true, does not allow borwser or client-side JS to access the cookie. **Should be true usually**
+    - `maxAge` - How long until the cookie expires, in milliseconds
+    - `path - specifies document location for cookie. Cookie will **only be sent if request path starts/matches with this path property**
+      - e.g for `path: '/foo'`, the request path `/foo/bar` or `/foo` would match, but `/bar/foo` or `/bar` would not
+    - `secure` - true means cookies will only be sent if the connection is HTTPS, false means it will send over HTTP or HTTPS
+  - `name` - Name of sessions created by the application
+  - `resave` - Whether the app should periodically resave the session data to the data store. Can usually be **false**
+  - `saveUninitialized` - Whether save unitialized sessions' data in the store. Should be **true** if we are trying to persist data
+  - `secret` - Used to sign and encrypt session cookie. Can just be a string
+  - `store` - Should reference our data store, e.g `new LokiStore({})`
+
+Remember that **Session persistence** does not play the same role as a **central database**
+- Session peristance is temporary (until either server gets rid of data, or cookie expires)
+- cenrtral database stores data for much longer periods of time, and is considered _permanent storage_
+  - information isn't dependent on a session ID
+ 
+Sessoin ID can be lost many ways
+- session cookie expired
+- user switches to a different browser
+- cookie is erased from browser
+- Server loses session ID
+
+### `connect-loki`
+A module that includes a NoSQL database used to persist data
+- Stores it in a local file called `session-store.db`
+  - ADD THIS TO `.gitignore`, pushing it to github is **compromising** the data
+
+**How to use**
+- `connect-loki` module returns a constructor that can be passed our session generated from `expression-session`\
+- Use constructor to create a new persisting data store. Pass constructor an empty object to initialize with default parameters
+  - has optional `path` that can be passed with object to specify path to database file, default is `session-store.db` in current dir
+
+```javascript
+const session = require('express-session'); // returns middleware function use to manage session data
+const store = require('connect-loki'); // returns middleware function to initalize a data store using express session data
+const LokiStore = store(session); // initalize data store for express session data (NoSQL DB)
+
+app.use(session({
+  cookie: {
+    httpOnly: true,
+    maxAge: 31 * 24 * 60 * 60 * 1000, // 31 days in milliseconds
+    path: "/",
+    secure: false,
+  },
+  name: "launch-school-contacts-manager-session-id",
+  resave: false,
+  saveUninitialized: true,
+  secret: "this is not very secure",
+  store: new LokiStore({}),
+}));
+```
 ```
