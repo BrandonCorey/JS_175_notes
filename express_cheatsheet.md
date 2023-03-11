@@ -293,6 +293,9 @@ Allow data to persist when our applicaton restarts, and allows each user to have
   - Currently in our apps, there is no way to differentiate between HTTP request sources, and all data is stored in the same object
 ### `express-session`
 A module that can be used to manage sessions. Mainly, it helps us handle cookies
+- Module returns a `session` middleware function to manage session data
+- Module creates a `session` object on `req` objects that are used pass data to our specified datastore
+   - `req.session` is how you manipulate the data store that you have specified in the `session` object argument 
 - Has a built in `MemoryStore` that can be used for development purposes, but doesn't persist (each browser would see something different, but app restarts would delete data)
 - Allows for use of external data stores that persist, list can be found in [documentation](https://www.npmjs.com/package/express-session)
 
@@ -357,5 +360,4 @@ app.use(session({
   secret: "this is not very secure",
   store: new LokiStore({}),
 }));
-```
 ```
