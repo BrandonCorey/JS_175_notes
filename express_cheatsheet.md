@@ -294,7 +294,7 @@ Allow data to persist when our applicaton restarts, and allows each user to have
 ### `express-session`
 A module that can be used to manage sessions. Mainly, it helps us handle cookies
 - Module returns a `session` middleware function to manage session data
-- Module creates a `session` object on `req` objects that are used pass data to our specified datastore
+- When middleware is passed to `app.use`, it creates a `session` object on `req` objects that are used pass data to our specified datastore
    - `req.session` is how you manipulate the data store that you have specified in the `session` object argument 
 - Has a built in `MemoryStore` that can be used for development purposes, but doesn't persist (each browser would see something different, but app restarts would delete data)
 - Allows for use of external data stores that persist, list can be found in [documentation](https://www.npmjs.com/package/express-session)
@@ -364,4 +364,51 @@ app.use(session({
   secret: "this is not very secure",
   store: new LokiStore({}),
 }));
+```
+## `express-flash`
+A middleware that allows you to display flash messages after a request has been made
+- Flash messages are messages that are stored in session data and display to the user on the next request
+- Must be used with `express-session`
+
+### How it works ###
+1. When middleware returned from `express-flash` is passed to `app.use`, it creates a `flash` object on `req.session` to store messages
+  - Also adds a `flash` method to `req` object that can be called to return message object on `req.session.flash`
+    - Can be passed two arguments to add a flash message to the message object: a name and a message
+    - This can be used in conjunction with `validationResult` from `express-validator` to create flash messages
+    - **If called with no arguments or one argument, it retrieves the message object/key respectively, and removes it from req.session.flash`
+      - This is why these messages display only once, despite being stored in session data
+2. Can also a middleware to store reference to `req.session.flash` in an object on `res.locals` to allow all views to access any message that we want to display after a redirect
+  - This is because we might want a view to be able to render messages after a redirect without having to pass the messages to the renderer
+  - This technique requires deleting `req.session.flash` afterwards as we don't want flash messages to persist on refresh
+    - This is because with this technique, since our messaages are stored on res.locals, we don't call `req.flash` to retrieve them and remove them from `req.session.flash`
+```javascript
+const flash = require('express-flash');
+app.use(flash());
+```
+```javascript
+// example of adding messages to req.session.flash, then retrieving and removing them to pass to the renderer to use in our views
+  (req, res, next) => {
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      errors.array().forEach(error => req.flash("error", error.msg));
+
+      res.render('new_contact', {
+        flash: req.flash(),
+        firstName: req.body.prevFirstName,
+        lastName: req.body.prevLastName,
+        phoneNumber: req.body.prevPhoneNumber,
+      });
+    } else {
+      next();
+    }
+```
+
+
+```javascript
+// example of middleware to avoid having to retrieve messages with `req.flash`
+app.use((req, res, next) => {
+  res.locals.flash = req.session.flash;
+  delete req.session.flash;
+  next();
+});
 ```
