@@ -342,6 +342,10 @@ A module that includes a NoSQL database used to persist data
 - Use constructor to create a new persisting data store. Pass constructor an empty object to initialize with default parameters
   - has optional `path` that can be passed with object to specify path to database file, default is `session-store.db` in current dir
 
+
+```
+npm install express-session connect-loki --save
+```
 ```javascript
 const session = require('express-session'); // returns middleware function use to manage session data
 const store = require('connect-loki'); // returns middleware function to initalize a data store using express session data
