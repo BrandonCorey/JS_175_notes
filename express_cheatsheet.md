@@ -458,7 +458,7 @@ app.use((req, res, next) => {
 ```
 
 **Example of what `req.session.flash` object looks like**
-```json
+```javascript
 {
   error: [
     "A title was not provided.",
