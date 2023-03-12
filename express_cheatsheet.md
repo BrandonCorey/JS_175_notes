@@ -457,7 +457,7 @@ app.use((req, res, next) => {
 });
 ```
 
-**Example of what `req.session.flash` object looks like**
+**Example of what `req.session.flash` object might look like**
 ```javascript
 {
   error: [
