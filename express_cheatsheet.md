@@ -287,7 +287,29 @@ app.post("/contacts/new",
   - `array` - Returns an array of all errors (as objects). Can specify an argument to narrow down returned errors e.g `{only: ['email']}
   - `isEmpty` - method returns a boolean based on if there are error objects generated from the `validationResult` invocation
 
-Example of what an object returned by `errors.array` looks like
+Example of object returned by `validationResult`
+```javascript
+{
+  errors: [
+    {
+      param: 'email',
+      msg: 'Email is required',
+      value: '',
+      location: 'body'
+    },
+    {
+      param: 'email',
+      msg: 'Must be a valid email',
+      value: 'notanemailadresshehehehe',
+      location: 'body'
+    }
+  ],
+  isEmpty: function() {...}
+}
+
+```
+
+Example of what an object returned by `validationResult(req).array()` looks like
 ```
 [
   {
