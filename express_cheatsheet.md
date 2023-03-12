@@ -456,3 +456,16 @@ app.use((req, res, next) => {
   next();
 });
 ```
+
+**Example of what `req.session.flash` object looks like**
+```json
+{
+  error: [
+    "A title was not provided.",
+    "Unable to comply.",
+    "That is illogical."
+  ],
+  info: [ "I'm a doctor, not a bricklayer." ],
+  success: [ "Engage!" ]
+}
+```
