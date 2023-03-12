@@ -254,7 +254,7 @@ The functions we are interested in for now:
 const { body, validationResult } = require("express-validator");
 ```
 
-- `body` - A function that takes an argument and parses a req.body for the matching value of that argument
+- `body` - A function that takes an argument and parses a `req.body` for the matching value of that argument
   - `trim` - Can trim whitespace from a string (normal JS function)
   - `isLength` - Checks if a string's length falls in a certain range. Can be passed an object argument speciying the min, max, or both
   - `isInt` - Checks if a string contains a number value (as a string). Optional range can be specified as an object argument with min, max, or both
@@ -262,6 +262,7 @@ const { body, validationResult } = require("express-validator");
   - `bail` - Exits validation chain if the validation method before it fails. Takes no arguments
   - `isAlpha` - Checks if string contains only alphabetic characters. Takes no arguments
   - `matches` - Checks if a string matches a regexular expression, which can be passed as an argument
+  - `custom` - Allows you to pass value found by `body` to a callback function and perform a check that returns a boolean value
   - `withMessage` - Add an error messages for the the preceding validation method if it fails
 
 This is called validation API chaining and can be passed as a middleware function to any express routing method e.g `app.METHOD`
@@ -279,6 +280,10 @@ app.post("/contacts/new",
       .withMessage("First name is too long. Maximum length is 25 characters.")
       .isAlpha()
       .withMessage("First name contains invalid characters. The name must be alphabetic."),
+      .custom(name => {
+        return LIST_OF_PEOPE.some(person => person.name === name);
+      .withMessage('Cannot have duplicate entries');
+      })
   ]
 ```
 
