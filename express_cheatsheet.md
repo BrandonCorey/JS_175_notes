@@ -8,16 +8,19 @@ const express = require('express');
 const app = express();
 ```
 
-We can create a **route** that handles HTTP `GET` requests using `get` method
+We can create a **route** that handles HTTP requests using routing methods like `app.get, app.post`
 - Can specify URL path as first argument, then a callback that takes arguments of request and response objects as second
-- This callback will be executed whenever an HTTP `GET` request is recieved for the `/` path
-  - Can use `send` to pass argument for HTTP body and send response
-  - Can use `render` to render a page view from a templating engine and send a reponse
+- This callback will be executed whenever a matching request is recieved for the method + path
+  - Can use `res.send` to pass argument for HTTP body and send response
+  - Can use `res.render` to render a page view from a templating engine and send a reponse
 - The argument to the `get` method is typically referred to as a **route handler** or **route controller**
   - has 3 arguments
   - `req`, `res`, and `next` (the standard names for these parameters
   - `req` and `res` are request and response objects
   - `next` - argument used for middleware function exeution
+
+
+
 ```javascript
 app.get('/', (req, res) => {
   res.send('<h1>Hello world</h1>')
@@ -42,11 +45,47 @@ app.listen(3000, "localhost", () => {
 });
 ```
 
+## Order of express function calls ##
+There is some flexibiity, however, generally the structure should be:
+1. Importing the things you need from modules at the top
+2. After this **initalize app**, define the** host** as well as the **port**
+3. Use `app.set` to define default views directory (where your pug files will be located so `res.render` knows where to look)
+4. Pass any middleware functions to `app.use` that should be executed at the application level for all requests
+5. Use routing methods / other middleware functions to process reqeusts
+
 ## Static assets
 Most web pages will need some type of static assets like images, stylesheets, fonts, client side JS etc.
 - Keep these in a `public` directory on server
   - e.g `mkdir public` `mkdir public/stylesheets`
 - Can use built in express function `express.static` to return a middleware function for `app` to use
+
+```javascript
+const express = require('express');
+const morgan = require('morgan');
+
+const app = express();
+const host = 'localhost';
+const port = 3000;
+
+let todoLists = require('./lib/seed-data');
+
+app.set('views', './views');
+app.set('view engine', 'pug');
+
+app.use(morgan('common'));
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: false }));
+
+app.get('/', (req, res) => {
+  res.redirect('/lists');
+});
+
+app.get('/lists', (req, res) => {
+  res.render('lists', {
+    todoLists,
+  });
+});
+```
   - `static` takes an argument for the name of the directory containing the static assets
   - The returned function will return assets whenever the path includes a subdirectory inside of `public`
 
