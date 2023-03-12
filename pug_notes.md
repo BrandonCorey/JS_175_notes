@@ -157,3 +157,6 @@ body
                      alt=country.alt
                      title=country.title)
 ```
+## Note about displaying error messages ##
+In many express + pug applications, it is common to render the error messages in the layout.pug, not the specific view where the error took place
+- This allows for error messages to be displayed in a uniform format across different views
