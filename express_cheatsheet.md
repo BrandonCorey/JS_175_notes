@@ -413,13 +413,19 @@ A middleware that allows you to display flash messages after a request has been 
 1. When middleware returned from `express-flash` is passed to `app.use`, it creates a `flash` object on `req.session` to store messages
   - Also adds a `flash` method to `req` object that can be called to return message object on `req.session.flash`
     - Can be passed two arguments to add a flash message to the message object: a name and a message
-    - This can be used in conjunction with `validationResult` from `express-validator` to create flash messages
+      - This will add a new message property of the name and value you pass to `req.session.flash`
+      - This can be used in conjunction with `validationResult` from `express-validator` to create flash messages for the validation chain messages
     - **If called with no arguments or one argument, it retrieves the message object/key respectively, and removes it from req.session.flash`
-      - This is why these messages display only once, despite being stored in session data
-2. Can also a middleware to store reference to `req.session.flash` in an object on `res.locals` to allow all views to access any message that we want to display after a redirect
-  - This is because we might want a view to be able to render messages after a redirect without having to pass the messages to the renderer
+      - This is one of the reasons why these messages display only once, despite being stored in session data
+2. Can also use a middleware to store reference to `req.session.flash` in an object on `res.locals` to allow all views to access any message that we want to display after a redirect
+  - This is because we might want a view to be able to render messages after a redirect
   - This technique requires deleting `req.session.flash` afterwards as we don't want flash messages to persist on refresh
-    - This is because with this technique, since our messaages are stored on res.locals, we don't call `req.flash` to retrieve them and remove them from 
+    - This partly because with this technique, since our messaages are stored on `res.locals`, we don't call `req.flash` to retrieve them immediately
+    - This is partly because POST requests automicatally clear flash object, but redirects --> GET requests DO NOT
+
+### Notes to remember so you don't become confused again ###
+- The middleware `req.session.flash` gets reset after each POST request, but not a GET (including a redirect that triggers a GET from the browser)
+- This is why we use above middleware technique, `req.session.flash` persists after redirect, we copy it to `res.locals`, we delete `req.session.flash`, then use our `res.locals.flash` to render in our view
 
 **Note about displaying flash messages in express**
 - For messages that display after a redirect (submission confirmation), these should be stored in persistant memory so that they are accessible
