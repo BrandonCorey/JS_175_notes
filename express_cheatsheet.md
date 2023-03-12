@@ -254,6 +254,7 @@ The functions we are interested in for now:
 const { body, validationResult } = require("express-validator");
 ```
 
+Remember that for each check,** we are defining the passing condition**, and if they fail, the message is added to the object returned by `validatonResult`
 - `body` - A function that takes an argument and parses a `req.body` for the matching value of that argument
   - `trim` - Can trim whitespace from a string (normal JS function)
   - `isLength` - Checks if a string's length falls in a certain range. Can be passed an object argument speciying the min, max, or both
@@ -281,7 +282,7 @@ app.post("/contacts/new",
       .isAlpha()
       .withMessage("First name contains invalid characters. The name must be alphabetic."),
       .custom(name => {
-        return LIST_OF_PEOPE.some(person => person.name === name);
+        return LIST_OF_PEOPE.every(person => person.name !== name);
       .withMessage('Cannot have duplicate entries');
       })
   ]
