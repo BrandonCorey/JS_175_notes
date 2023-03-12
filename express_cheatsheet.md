@@ -351,7 +351,7 @@ A module that can be used to manage sessions. Mainly, it helps us handle cookies
   - The `cookie` property specifies a cookie object with the following required properties
     - `httpOnly` - Security related setting. Can be true/false. When true, does not allow borwser or client-side JS to access the cookie. **Should be true usually**
     - `maxAge` - How long until the cookie expires, in milliseconds
-    - `path - specifies document location for cookie. Cookie will **only be sent if request path starts/matches with this path property**
+    - `path` - specifies document location for cookie. Cookie will **only be sent if request path starts/matches with this path property**
       - e.g for `path: '/foo'`, the request path `/foo/bar` or `/foo` would match, but `/bar/foo` or `/bar` would not
     - `secure` - true means cookies will only be sent if the connection is HTTPS, false means it will send over HTTP or HTTPS
   - `name` - Name of sessions created by the application
