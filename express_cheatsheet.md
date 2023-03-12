@@ -380,7 +380,12 @@ A middleware that allows you to display flash messages after a request has been 
 2. Can also a middleware to store reference to `req.session.flash` in an object on `res.locals` to allow all views to access any message that we want to display after a redirect
   - This is because we might want a view to be able to render messages after a redirect without having to pass the messages to the renderer
   - This technique requires deleting `req.session.flash` afterwards as we don't want flash messages to persist on refresh
-    - This is because with this technique, since our messaages are stored on res.locals, we don't call `req.flash` to retrieve them and remove them from `req.session.flash`
+    - This is because with this technique, since our messaages are stored on res.locals, we don't call `req.flash` to retrieve them and remove them from 
+
+**Note about displaying flash messages in express**
+- For messages that display after a redirect (submission confirmation), these should be stored in persistant memory so that they are accessible
+- For messages that display on the same page, this is not required as we can simply re-rendor the page and pass the messages to the view
+`req.session.flash`
 ```javascript
 const flash = require('express-flash');
 app.use(flash());
