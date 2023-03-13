@@ -62,12 +62,11 @@ Most web pages will need some type of static assets like images, stylesheets, fo
 ```javascript
 const express = require('express');
 const morgan = require('morgan');
+const todoLists = require('./lib/seed-data');
 
 const app = express();
 const host = 'localhost';
 const port = 3000;
-
-let todoLists = require('./lib/seed-data');
 
 app.set('views', './views');
 app.set('view engine', 'pug');
@@ -129,11 +128,12 @@ app.get('/account/:accountId/users/:userId', (req, res) => {
 In Express, error handling middleware functions are executed in the order they are defined, but they have a special signature that includes an err parameter as the first parameter. This allows them to handle errors that are passed to the next function by previous middleware functions.
 - Unike other middleware, error handler are defined after the routes and will execute if any error is encountered in the request processing pipeline
 
-If an error occurs in any middleware function or route handler, the next function should be called with an error object as its first parameter, like this:
+If an error occurs in any middleware function or route handler,** the next function should be called with an error object as its argument**:
+- This will immeditaly execute the error handler middleware that you have defined near the end of your program (right before `app.listen`)
 ```javascript
 app.get('/example', function(req, res, next) {
   // Some code that may throw an error
-  throw new Error('Something went wrong');
+  next(new Error('Something went wrong'));
 });
 
 // Error handling middleware function
